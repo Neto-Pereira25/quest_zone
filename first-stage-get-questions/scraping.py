@@ -25,6 +25,7 @@ def get_links_pdf_questions(year: int) -> list | None:
             href = link['href']
             if f'{year}' in href:
                 full_url = urljoin(URL_QUESTIONS, href)
+                full_url = full_url.replace('.PDF', '.pdf')
                 pdf_links.append(full_url)
             continue
         
@@ -53,10 +54,16 @@ def download_pdf_questions(pdf_links: list, name_of_competition: str, year: int)
                     for chunk in pdf_response.iter_content(chunk_size=1024):
                         file.write(chunk)
                 
-                print(f'{file_name} baixado com sucesso!\n')
+                print(f'Prova {file_name} do ano {year} baixada com sucesso!\n')
             except Exception as e:
                 print(f'Erro ao baixar os PDFs: {e}')
-        
+        else:
+            print('Não é pdf')
+
 if __name__ == '__main__':
-    result = get_links_pdf_questions(2016)
-    download_pdf_questions(result, 'esfcex', 2016)
+    years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+    
+    for year in years:
+        result = get_links_pdf_questions(year)
+        download_pdf_questions(result, 'esfcex', year)
+    
