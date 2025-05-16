@@ -25,7 +25,7 @@ def get_links_pdf_questions(year: int) -> list | None:
             href = link['href']
             if f'{year}' in href:
                 full_url = urljoin(URL_QUESTIONS, href)
-                full_url = full_url.replace('.PDF', '.pdf')
+                # full_url = full_url.replace('.PDF', '.pdf')
                 pdf_links.append(full_url)
             continue
         
@@ -44,7 +44,7 @@ def download_pdf_questions(pdf_links: list, name_of_competition: str, year: int)
     for pdf_url in pdf_links:
         file_name = pdf_url.split('/')[-1]
         
-        if '.pdf' in file_name:
+        if '.pdf' in file_name or '.PDF' in file_name:
             file_path = os.path.join(DOWNLOAD_FOLDER, name_of_competition, f'{year}', file_name)
             
             try:
@@ -61,9 +61,14 @@ def download_pdf_questions(pdf_links: list, name_of_competition: str, year: int)
             print('Não é pdf')
 
 if __name__ == '__main__':
-    years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
-    
-    for year in years:
-        result = get_links_pdf_questions(year)
-        download_pdf_questions(result, 'esfcex', year)
-    
+    # years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+    # years = [2017, 2018]
+    # for year in years:
+    #     result = get_links_pdf_questions(year)
+    #     download_pdf_questions(result, 'esfcex', year)
+    year = 2018
+    result = get_links_pdf_questions(year)
+    download_pdf_questions(result, 'esfcex', year)
+    print(len(result))
+    for link in result:
+        print(link, '\n')
